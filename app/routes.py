@@ -75,15 +75,22 @@ def exclude_ip():
 @bp.route('/filtered-tor-ips', methods=['GET'])
 @require_jwt
 def get_filtered_tor_ips():
-    """Endpoint to fetch filtered TOR IPs."""
+    """
+    Endpoint to fetch filtered TOR IPs, excluding those in the exclusion list.
+    """
     try:
+        # Fetch all TOR IPs and excluded IPs
         tor_ips = fetch_tor_ips()
         excluded_ips = get_excluded_ips()
-        filtered_ips = tor_ips - excluded_ips
-        return jsonify({"filtered_tor_ips": list(filtered_ips)})
+
+        # Convert tor_ips to set before subtraction
+        filtered_ips = set(tor_ips) - set(excluded_ips)
+
+        return jsonify({"filtered_tor_ips": list(filtered_ips)}), 200
+
     except Exception as e:
         logging.error(f"Error on search filtered TOR IPs: {e}")
-        return jsonify({"error": "Error on search filtered TOR IPs."}), 500
+        return jsonify({"error": f"An error occurred: {e}"}), 500
 
 @bp.route('/excluded-ips', methods=['DELETE'])
 @require_role("admin")
