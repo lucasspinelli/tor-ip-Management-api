@@ -69,8 +69,8 @@ The application dependencies are listed in the `requirements.txt` file. They wil
 
 ### **1. Clone the Repository**
 ```bash
-git clone <repository-url>
-cd <repository-directory>
+git clone https://github.com/lucasspinelli/tor-ip-Management-api
+cd tor-ip-Management-api
 ```
 
 ### **2. Configure Environment Variables**
